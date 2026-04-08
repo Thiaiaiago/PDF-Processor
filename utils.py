@@ -21,7 +21,7 @@ def regra_divisao(pasta):
     return ["divide by", 5]
 
 
-def extrair_tabela_por_linhas_vermelhas(pagina):
+def destaca_tabelas(pagina):
     """Detecta e recorta a área de uma tabela baseada em linhas vermelhas decorativas.
 
     Args:
@@ -75,3 +75,64 @@ def extrair_tabela_por_linhas_vermelhas(pagina):
         cropped = page_crop.crop((bbox["x0"], bbox["y0"], bbox["x1"], bbox["y1"]))
 
     return cropped
+
+def crop_page(pagina, rodape, cabecalho, margemEsq, margemDir):
+    
+    largura = pagina.width -margemDir
+    altura = pagina.height - rodape
+
+    page_crop = pagina.crop((margemEsq, cabecalho, largura, altura))
+
+    return page_crop
+
+
+def ajustar_linha(x_teorico, words, margem=15):
+        """ Tenta mover o x_teorico para um espaço vazio próximo """
+            
+        conflitos = [w for w in words if abs(w['x0'] - x_teorico) < margem or abs(w['x1'] - x_teorico) < margem]
+        
+        if not conflitos:
+            return x_teorico 
+        
+        esquerdas = [w['x1'] for w in conflitos if w['x1'] < x_teorico]
+        direitas = [w['x0'] for w in conflitos if w['x0'] > x_teorico]
+        
+        novo_x = x_teorico
+        if esquerdas and direitas:
+            novo_x = (max(esquerdas) + min(direitas)) / 2
+        elif esquerdas:
+            novo_x = max(esquerdas) + 2 
+        elif direitas:
+            novo_x = min(direitas) - 2
+            
+        return novo_x
+
+def filtrar_e_ajustar_h_lines(h_coords, words, margem_busca=5):
+    """ 
+    Remove linhas horizontais que estão no 'vazio' 
+    e ajusta as que sobraram para os limites do texto.
+    """
+    h_validadas = []
+    
+    if not h_coords: return []
+    h_validadas.append(h_coords[0])
+    
+    for y_teorico in h_coords[1:-1]:
+        palavras_perto = [
+            w for w in words 
+            if abs(w['bottom'] - y_teorico) < margem_busca 
+            or abs(w['top'] - y_teorico) < margem_busca
+        ]
+        
+        if palavras_perto:
+            tops_abaixo = [w['top'] for w in palavras_perto if w['top'] > y_teorico]
+            bottoms_acima = [w['bottom'] for w in palavras_perto if w['bottom'] < y_teorico]
+            
+            if tops_abaixo and bottoms_acima:
+                y_ajustado = (max(bottoms_acima) + min(tops_abaixo)) / 2
+                h_validadas.append(y_ajustado)
+            else:
+                h_validadas.append(y_teorico)
+                
+    h_validadas.append(h_coords[-1])
+    return sorted(list(set(h_validadas)))

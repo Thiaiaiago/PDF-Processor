@@ -1,0 +1,19 @@
+{
+    "Humano": "+1 em três atributos diferentes",
+    "Anão": "Con +2, Sab +1, Des –1",
+    "Dahllan": "Sab +2, Des +1, Int –1",
+    "Elfo": "Int +2, Des +1, Con –1",
+    "Goblin": "Des +2, Int +1, Car –1",
+    "Lefou": "+1 em três atributos diferentes (exceto Car), Car –1",
+    "Minotauro": "For +2, Con +1, Sab –1",
+    "Qareen": "Car +2, Int +1, Sab –1",
+    "Golem": "For +2, Con +1, Car –1",
+    "Hynne": "Des +2, Car +1, For –1",
+    "Kliren": "Int +2, Car +1, For –1",
+    "Medusa": "Des +2, Car +1",
+    "Osteon": "+1 em três atributos diferentes (exceto Con), Con –1",
+    "Sereia/Tritão": "+1 em três atributos diferentes",
+    "Sílfide": "Car +2, Des +1, For –2",
+    "Suraggel": "Sab +2, Car +1 (aggelus) ou Des +2, Int +1 (sulfure)",
+    "Trog": "Con +2, For +1, Int –1"
+}

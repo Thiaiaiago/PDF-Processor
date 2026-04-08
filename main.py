@@ -98,12 +98,13 @@ for arquivo in encontrar_pdfs("arquivos/pastateste"):
                 R, G, B, tam_fonte = linha['chars'][0]['non_stroking_color'][0], linha['chars'][0]['non_stroking_color'][1], linha['chars'][0]['non_stroking_color'][2], linha['chars'][0]['size']
                 params_title = all(pixel_color*255 > 200 for pixel_color in (R, G, B)) and tam_fonte >= 15
                 
+                # print(params_title)
                 if 'Tabela' in linha['text']:
                     list_tabela = Tabela(linha['text'], tam_fonte, [R, G, B])
                     # print(linha['chars'][0])
-                # if (params_title):
-                #     print(linha['text'])
-                #     print(tam_fonte)
+                if (params_title):
+                    print(linha['text'])
+                    print(tam_fonte)
 
                     
 
@@ -119,4 +120,4 @@ for arquivo in encontrar_pdfs("arquivos/pastateste"):
             #         print(linha['text'])
 
             cropped = extrair_tabela_por_linhas_vermelhas(pdf.pages[23])
-            cropped.to_image(resolution=200).show()
+            # cropped.to_image(resolution=200).show()
